@@ -6,7 +6,7 @@
 /*   By: andefern <andefern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:10:44 by andefern          #+#    #+#             */
-/*   Updated: 2023/12/22 15:38:02 by andefern         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:06:00 by andefern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*ft_sjoin(char const *s1, char const *s2)
 	//bucket tiene que encontrar donde está \n
 	//tiene que reservar un string de tamaño desde 0 hasta \n + 1
 	//crear un malloc de este tamaño y guardar el contenido del string
-char	*bucket(char *luftbuffer, char *rest, char *puke)
+char	*bucket(char *luftbuffer)
 {
 	char	*bile;
 	int		k;
@@ -112,8 +112,9 @@ char	*bucket(char *luftbuffer, char *rest, char *puke)
 		luftbuffer[k] = bile[k];
 		k++;
 	}
-	rest = ft_dup(ft_schr(bile, '\n') + 1);
-	return (puke);
+	luftbuffer[k] = bile[k];
+	bile[k] = '\0';
+	return (bile);
 }
 
 char	*bruce(int fd, char *luftbuffer)
@@ -134,10 +135,9 @@ char	*bruce(int fd, char *luftbuffer)
 	free(save);
 	free(reading);
 	return (temp);
-
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, char *bile)
 {
 	char		*luftbuffer;
 	char		*puke;
@@ -154,6 +154,7 @@ char	*get_next_line(int fd)
 	while (!ft_schr(luftbuffer, '\n') && luftbuffer != NULL)
 		luftbuffer = bruce(fd, luftbuffer);
 	puke = bucket(luftbuffer);
+	rest = ft_dup(ft_schr(bile, '\n') + 1);
 }
 
 int	main(void)
