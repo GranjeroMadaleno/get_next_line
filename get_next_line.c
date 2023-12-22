@@ -6,7 +6,7 @@
 /*   By: andefern <andefern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:10:44 by andefern          #+#    #+#             */
-/*   Updated: 2023/12/22 17:06:00 by andefern         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:21:35 by andefern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ char	*bucket(char *luftbuffer)
 	int		k;
 
 	k = 0;
-	while (luftbuffer != '\n')
+	while (*luftbuffer != '\n')
 		k++;
 	bile = malloc(sizeof(char) * k + 1);
 	k = 0;
-	while (luftbuffer != '\n')
+	while (*luftbuffer != '\n')
 	{
 		luftbuffer[k] = bile[k];
 		k++;
@@ -155,6 +155,7 @@ char	*get_next_line(int fd, char *bile)
 		luftbuffer = bruce(fd, luftbuffer);
 	puke = bucket(luftbuffer);
 	rest = ft_dup(ft_schr(bile, '\n') + 1);
+	return (puke);
 }
 
 int	main(void)
