@@ -6,18 +6,12 @@
 /*   By: andefern <andefern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:10:44 by andefern          #+#    #+#             */
-/*   Updated: 2023/12/22 17:21:35 by andefern         ###   ########.fr       */
+/*   Updated: 2023/12/26 13:52:54 by andefern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
+#include "get_next_line.h"
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 3
-#endif
 
 int	ft_len(const char *k)
 {
@@ -59,6 +53,8 @@ char	*ft_dup(const char *s)
 
 char	*ft_schr(const char *s, int c)
 {
+	if (s == NULL)
+		return (NULL);
 	while (*s != '\0' && *s != (unsigned char)c)
 		s++;
 	if (*s == (unsigned char)c)
@@ -103,67 +99,89 @@ char	*bucket(char *luftbuffer)
 	int		k;
 
 	k = 0;
-	while (*luftbuffer != '\n')
+	if (luftbuffer == NULL)
+		return (NULL);
+	while (luftbuffer[k] != '\0' && luftbuffer[k] != '\n')
 		k++;
 	bile = malloc(sizeof(char) * k + 1);
 	k = 0;
-	while (*luftbuffer != '\n')
+	while (luftbuffer[k] != '\0' && luftbuffer[k] != '\n')
 	{
-		luftbuffer[k] = bile[k];
+		bile[k] = luftbuffer[k];
 		k++;
 	}
-	luftbuffer[k] = bile[k];
+	bile[k] = luftbuffer[k];
+	k++;
 	bile[k] = '\0';
 	return (bile);
 }
 
-char	*bruce(int fd, char *luftbuffer)
+char	*bruce(int fd, char *luftbuffer, int *read_bytes)
 {
 	char	*reading;
 	char	*temp;
 	char	*save;
-	size_t	read_bytes;
 
 	save = ft_dup(luftbuffer);
-	free(luftbuffer);
 	reading = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	reading[BUFFER_SIZE] = '\0';
-	read_bytes = read(fd, reading, BUFFER_SIZE);
-	if (read_bytes <= 0)
+	*read_bytes = read(fd, reading, BUFFER_SIZE);
+	reading[*read_bytes] = '\0';
+	if (*read_bytes <= 0 && luftbuffer[0] == '\0')
 		return (NULL);
+	free(luftbuffer);
 	temp = ft_sjoin(save, reading);
 	free(save);
 	free(reading);
 	return (temp);
 }
 
-char	*get_next_line(int fd, char *bile)
+char	*get_next_line(int fd)
 {
 	char		*luftbuffer;
 	char		*puke;
 	static char	*rest;
+	int			read_bytes;
 
-	if (rest == NULL)
+	if (rest == NULL || rest[0] == '\0')
 	{
 		luftbuffer = malloc(sizeof(char));
 		luftbuffer[0] = '\0';
-		free(rest);
+	}
+	else if (rest != NULL && ft_schr(rest, '\n') != NULL)
+	{
+		puke = bucket(rest);
+		rest = ft_dup(ft_schr(rest, '\n') + 1);
+		return (puke);
 	}
 	else
 		luftbuffer = ft_dup(rest);
-	while (!ft_schr(luftbuffer, '\n') && luftbuffer != NULL)
-		luftbuffer = bruce(fd, luftbuffer);
+	read_bytes = 1;
+	while (read_bytes > 0 && luftbuffer && !ft_schr(luftbuffer, '\n'))
+		luftbuffer = bruce(fd, luftbuffer, &read_bytes);
 	puke = bucket(luftbuffer);
-	rest = ft_dup(ft_schr(bile, '\n') + 1);
+	if (ft_schr(luftbuffer, '\n') != NULL)
+		rest = ft_dup(ft_schr(luftbuffer, '\n') + 1);
+	else
+		rest = NULL;
 	return (puke);
 }
 
+/*
 int	main(void)
 {
-	int	fd;
+	int		fd;
+	char	*str;
 
 	fd = open("txt.txt", O_RDONLY);
-
-	printf("out:\n%s", get_next_line(fd));
+	str = get_next_line(fd);
+	printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
+	while (str)
+	{
+		printf("out:\n%s", str);
+		free(str);
+		str = get_next_line(fd);
+	}
 	return (0);
 }
+*/
