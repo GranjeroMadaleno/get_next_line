@@ -6,7 +6,7 @@
 /*   By: andefern <andefern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:18:09 by andefern          #+#    #+#             */
-/*   Updated: 2023/12/26 15:20:27 by andefern         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:54:47 by andefern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_len(const char *k)
 	int	i;
 
 	i = 0;
+	if (!k)
+		return (0);
 	while (k[i])
 		i++;
 	return (i);
@@ -42,7 +44,7 @@ char	*ft_dup(const char *s)
 {
 	char	*dest;
 
-	dest = malloc((ft_len(s) + 1) * sizeof(char));
+	dest = malloc(sizeof(char) * (ft_len(s) + 1));
 	if (dest == NULL)
 		return (NULL);
 	ft_mcpy(dest, s, ft_len(s));
