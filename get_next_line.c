@@ -6,7 +6,7 @@
 /*   By: andefern <andefern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:10:44 by andefern          #+#    #+#             */
-/*   Updated: 2023/12/29 12:28:46 by andefern         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:57:52 by andefern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,33 +108,16 @@ char	*get_next_line(int fd)
 /* int	main(void)
 {
 	int	fd;
+	char	*str;
 
 	fd = open("txt.txt", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-	printf("%s", get_next_line(fd));
-	printf("------\n");
-
-
+	str = get_next_line(fd);
+	while (str != NULL)
+	{
+		printf("%s", str);
+		free(str);
+		str = get_next_line(fd);
+	}
+	printf("%s\n", str);
 	close(fd);
 } */
