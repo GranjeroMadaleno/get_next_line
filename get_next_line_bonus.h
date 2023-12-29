@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andefern <andefern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:29:46 by andefern          #+#    #+#             */
-/*   Updated: 2023/12/29 12:29:32 by andefern         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:30:17 by andefern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <sys/syslimits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 11

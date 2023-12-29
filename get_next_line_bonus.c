@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andefern <andefern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:10:44 by andefern          #+#    #+#             */
-/*   Updated: 2023/12/29 12:28:46 by andefern         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:25:58 by andefern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_readfd(char *str, int fd)
 {
@@ -92,16 +92,16 @@ char	*newline(char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*str;
+	static char	*str[OPEN_MAX];
 	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str = ft_readfd(str, fd);
-	if (str == NULL)
+	str[fd] = ft_readfd(str[fd], fd);
+	if (str[fd] == NULL)
 		return (NULL);
-	buffer = newline(str);
-	str = ft_static(str);
+	buffer = newline(str[fd]);
+	str[fd] = ft_static(str[fd]);
 	return (buffer);
 }
 
